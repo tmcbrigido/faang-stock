@@ -6,3 +6,4 @@ Based on the article: https://towardsdatascience.com/in-12-minutes-stocks-analys
 https://www.codingfinance.com/post/2018-04-03-calc-returns-py/
 
 
+Check branches
