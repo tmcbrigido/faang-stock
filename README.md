@@ -83,11 +83,6 @@ plt.show()
 
 ![FAANG - Cumulative Returns](/images/cumulative_returns.png)
 
-#### Credits
-
-[In 12 minutes: Stocks Analysis with Pandas and Scikit-Learn](https://towardsdatascience.com/in-12-minutes-stocks-analysis-with-pandas-and-scikit-learn-a8d8a7b50ee7)
-
-[How to calculate stock returnss in Python](https://www.codingfinance.com/post/2018-04-03-calc-returns-py/)
 
 <!Add Codacy Badge!>
 
