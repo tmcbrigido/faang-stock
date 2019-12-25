@@ -1,4 +1,4 @@
-# Simple Moving Averages - FAANG Stocks
+# FAANG - Simple Moving Averages
 
 <!Add Codacy Badge!>
 
