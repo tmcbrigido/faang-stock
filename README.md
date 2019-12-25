@@ -14,8 +14,13 @@ Pandas Web Reader is an up to date remote acess for pandas library that allows u
 import datetime
 import pandas_datareader.data as web
 from pandas import Series, DataFrame
+import matplotlib.pyplot as plt
+from matplotlib import style
+import matplotlib as mpl
+
 start = datetime.datetime(2014, 1, 1)
 end = datetime.datetime(2019, 11, 30)
+
 df = web.DataReader(["AAPL","AMZN","FB","NFLX","GOOGL"], 'yahoo', start, end)
 ```
 
@@ -25,18 +30,8 @@ df = web.DataReader(["AAPL","AMZN","FB","NFLX","GOOGL"], 'yahoo', start, end)
 
 Let's have a look at the code ad graph created using matplotlib:
 
-``` %matplotlib inline
-import matplotlib.pyplot as plt
-from matplotlib import style
-
-# Adjusting the size of matplotlib
-import matplotlib as mpl
-mpl.rc('figure', figsize=(8, 8))
-mpl.__version__
-
-# Adjusting the style of matplotlib
+``` mpl.rc('figure', figsize=(8, 8))
 style.use('ggplot')
-
 AdjClose.plot(label='FAANG')
 plt.legend()
 ```
@@ -146,22 +141,14 @@ plt.show()
 
 ## Simple Moving Averages - Amazon
 
-```%matplotlib inline
-import matplotlib.pyplot as plt
-from matplotlib import style
-
-# Adjusting the size of matplotlib
-import matplotlib as mpl
-mpl.rc('figure', figsize=(8, 7))
-mpl.__version__
-
-# Adjusting the style of matplotlib
+```mpl.rc('figure', figsize=(8, 7))
 style.use('ggplot')
-AdjCloseMa["AMZN"].plot(label='AMZN')
-mavgma30["AMZN"].plot(label='mavg30')
-mavgma50["AMZN"].plot(label='mavg50')
-mavgma100["AMZN"].plot(label='mavg100')
+AdjClose["AMZN"].plot(label='AMZN')
+mavg30["AMZN"].plot(label='mavg30')
+mavg50["AMZN"].plot(label='mavg50')
+mavg100["AMZN"].plot(label='mavg100')
+plt.xlim('2017-01-01','2019-11-30')
 plt.legend()
 ```
 
-![SMA - Amazon](/images/sma_amazon.png)
+![SMA - Amazon](/images/sam_amazon.png)
