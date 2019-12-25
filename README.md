@@ -1,27 +1,29 @@
-# FAANG - Stock Analysis
+# Simple Moving Averages - FAANG Stocks
 
-#### Load Data from Yahoo Finance
+<!Add Codacy Badge!>
 
-Pandas Web Reader is an extension of pandas library that imports data from several sources including Yahoo Finance, Quandl, Enigma, NASDAQ,etc.
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a0d3d04c572542e484f8ee9ee99e0467)](https://www.codacy.com/manual/tmcbrigido/faang-stock?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tmcbrigido/faang-stock&amp;utm_campaign=Badge_Grade)
 
-We can import the stock prices using the following libraries:
+FAANG is an acronym for the 5 most popular and best-performing tech stocks - Facebook, Apple, Amazon, Netflix, and Alphabet (Google). Over the past few years, FAANG stocks have delivered outstanding results to their shareholders but they start to show signs of resistance which leaves us with an open question when planning our investment strategies for 2020: Can these stocks still outperform the market consistently or should investors find return anywhere else?  I will focus this analysis in the past performance of FAANG using Python, starting with historical performance, data visualization and close with a prediction analysis using Linear Analysis and K Nearest Neighbor (KNN).
+
+## Load Data from Yahoo Finance
+
+Pandas Web Reader is an up to date remote acess for pandas library that allows us to extract financial information from multiple sources including Yahoo Finance, Quandl, Enigma, World Bank, etc. In my analysis, I will use Yahoo Finance using the following code with prices over the past 5 years.
 
 ```import pandas as pd
 import datetime
 import pandas_datareader.data as web
 from pandas import Series, DataFrame
-```
-
-Define the start and end date and import the stocks for FAANG:
-
-```start = datetime.datetime(2014, 1, 1)
+start = datetime.datetime(2014, 1, 1)
 end = datetime.datetime(2019, 11, 30)
 df = web.DataReader(["AAPL","AMZN","FB","NFLX","GOOGL"], 'yahoo', start, end)
 ```
 
-![FAANG - Adjusted Prices](images/AdjClose.png)
+![FAANG - Adjusted Prices](/images/AdjClose.png)
 
-The code will pull the last 5 years of data from Jan, 2014 until Nov,2019. I decided to create a new table (AdjClose) where I stored the data for the adjusted prices for each individual stock. You can plot the stocks and their respective prices using the code:
+## Data Visualization
+
+Let's have a look at the code ad graph created using matplotlib:
 
 ``` %matplotlib inline
 import matplotlib.pyplot as plt
@@ -39,9 +41,9 @@ AdjClose.plot(label='FAANG')
 plt.legend()
 ```
 
-![FAANG - Adjusted Prices](/images/stock_plot.png)
+![FAANG Adjusted Prices](/images/stock_plot.png)
 
-If we look at the graph we can see that Amazon is the clear winner from the group, however it is difficult to compare companies based on stock prices. The next step is to calculate the monthly returns and plot them:
+If you look at the previous graph you can easily identify trends in the markets, corrections and compare performance. The next step is to compute the monthly returns and cumulative returns and plot those results:
 
 ```monthly_returns = AdjClose.resample('M').ffill().pct_change()
 fig = plt.figure()
@@ -66,12 +68,9 @@ plt.show()
 
 ![FAANG - Monthly Returns](/images/monthly_plot.png)
 
-
-Now that we have the monthly returns we can also figure out the total return for each stock and check the return of $1 after 5 years in each one of them:
+Based on the cumulative returns, we could plot it as following:
 
 ```cum_returns = (monthly_returns + 1).cumprod()
-
-
 fig = plt.figure()
 ax1 = fig.add_axes([0.1,0.1,0.8,0.8])
 cum_returns.plot()
@@ -83,7 +82,86 @@ plt.show()
 
 ![FAANG - Cumulative Returns](/images/cumulative_returns.png)
 
+For each one of the stocks:
 
-<!Add Codacy Badge!>
+```fig = plt.figure()
+ax1 = fig.add_subplot(321)
+ax2 = fig.add_subplot(322)
+ax3 = fig.add_subplot(323)
+ax4 = fig.add_subplot(324)
+ax5 = fig.add_subplot(325)
+ax1.plot(cum_returns['AMZN'])
+ax1.set_title("Amazon")
+ax2.plot(cum_returns['AAPL'])
+ax2.set_title("Apple")
+ax3.plot(cum_returns['FB'])
+ax3.set_title("Facebook")
+ax4.plot(cum_returns['NFLX'])
+ax4.set_title("Netflix")
+ax5.plot(cum_returns['GOOGL'])
+ax5.set_title("Google")
+plt.tight_layout()
+plt.show()
+```
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a0d3d04c572542e484f8ee9ee99e0467)](https://www.codacy.com/manual/tmcbrigido/faang-stock?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tmcbrigido/faang-stock&amp;utm_campaign=Badge_Grade)
+![Individual Stocks - Cumulative Returns](/images/cumulative_individual.png)
+
+Historical performance is not a sign of future performance.
+
+## Moving Averages
+
+The Simple Moving Average (SMA) is a technique used by investors to make buy and sell decisions by identifying support and resistance prices where the stock or currency should be traded. The SMA takes the average price over a certain period. In this case, we will compute the SMA for 30, 60 and 90 days, which means that we will measure it based on the average for the past 30 days for example.  The length of the moving average will depend on the investment strategy that would be adopted, with shorter moving averages used for short term strategies and long term moving averages for long term investments.  A rising trend in the moving average is an indicator of an uptrend in the stock while a declining moving average is a sign of a downtrend.
+
+```mavg30 = AdjClose.rolling(window=30).mean()
+mavg50 = AdjClose.rolling(window=50).mean()
+mavg100 = AdjClose.rolling(window=100).mean()
+```
+
+```fig = plt.figure()
+ax1 = fig.add_subplot(321)
+ax2 = fig.add_subplot(322)
+ax3 = fig.add_subplot(323)
+ax4 = fig.add_subplot(324)
+ax5 = fig.add_subplot(325)
+ax1.plot(AdjClose['AMZN'], label='AMZN')
+ax1.plot(mavg90['AMZN'], label='mavg')
+ax1.set_title("Amazon")
+ax2.plot(AdjClose['AAPL'], label='AAPL')
+ax2.plot(mavg90['AAPL'], label='mavg')
+ax2.set_title("Apple")
+ax3.plot(AdjClose['FB'], label='FB')
+ax3.plot(mavg90['FB'], label='mavg')
+ax3.set_title("Facebook")
+ax4.plot(AdjClose['NFLX'], label='NFLX')
+ax4.plot(mavg90['NFLX'], label='mavg')
+ax4.set_title("Netflix")
+ax5.plot(AdjClose['GOOGL'], label='GOOGL')
+ax5.plot(mavg90['GOOGL'], label='mavg')
+ax5.set_title("Google")
+plt.tight_layout()
+plt.show()
+```
+
+![Simple Moving Averages](/images/moving.png)
+
+## Simple Moving Averages - Amazon
+
+```%matplotlib inline
+import matplotlib.pyplot as plt
+from matplotlib import style
+
+# Adjusting the size of matplotlib
+import matplotlib as mpl
+mpl.rc('figure', figsize=(8, 7))
+mpl.__version__
+
+# Adjusting the style of matplotlib
+style.use('ggplot')
+AdjCloseMa["AMZN"].plot(label='AMZN')
+mavgma30["AMZN"].plot(label='mavg30')
+mavgma50["AMZN"].plot(label='mavg50')
+mavgma100["AMZN"].plot(label='mavg100')
+plt.legend()
+```
+
+![SMA - Amazon](/images/sma_amazon.png)
