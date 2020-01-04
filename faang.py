@@ -1,7 +1,5 @@
-import pandas as pd
 import datetime
 import pandas_datareader.data as web
-from pandas import Series, DataFrame
 import matplotlib.pyplot as plt
 from matplotlib import style
 import matplotlib as mpl
@@ -22,7 +20,7 @@ AdjClose.tail()
 
 # Plot the Prices
 
-mpl.rc('figure', figsize=(8, 8))
+mpl.rc('figure', figsize=(8,8))
 style.use('ggplot')
 AdjClose.plot(label='FAANG')
 plt.legend()
@@ -120,10 +118,7 @@ print(monthly_returns.std())
 
 corr = (monthly_returns.corr())
 
-corr
-
 print(monthly_returns.cov())
-
 
 # Moving Average for FAAG
 
@@ -131,13 +126,9 @@ mavg30 = AdjClose.rolling(window=30).mean()
 mavg50 = AdjClose.rolling(window=50).mean()
 mavg100 = AdjClose.rolling(window=100).mean()
 
-# Print mavg
-
-mavg100
-
 # Plot the moving average for Amazon
 
-mpl.rc('figure', figsize=(8, 7))
+mpl.rc('figure', figsize=(8,7))
 style.use('ggplot')
 AdjClose["AMZN"].plot(label='AMZN')
 mavg100["AMZN"].plot(label='mavg')
@@ -171,7 +162,7 @@ plt.show()
 
 # Plot Simple Moving Averages for Amazon
 
-mpl.rc('figure', figsize=(8, 7))
+mpl.rc('figure', figsize=(8,7))
 style.use('ggplot')
 AdjClose["AMZN"].plot(label='AMZN')
 mavg30["AMZN"].plot(label='mavg30')
@@ -182,7 +173,7 @@ plt.legend()
 
 # Plot Simple Moving Averages for Apple
 
-mpl.rc('figure', figsize=(8, 7))
+mpl.rc('figure', figsize=(8,7))
 style.use('ggplot')
 AdjClose["AAPL"].plot(label='AAPL')
 mavg30["AAPL"].plot(label='mavg30')
@@ -193,7 +184,7 @@ plt.legend()
 
 # Plot Simple Moving Averages for Netflix
 
-mpl.rc('figure', figsize=(8, 7))
+mpl.rc('figure', figsize=(8,7))
 style.use('ggplot')
 AdjClose["NFLX"].plot(label='NFLX')
 mavg30["NFLX"].plot(label='mavg30')
